@@ -1,4 +1,4 @@
-package guru.springframework.spring5webapp.model;
+package guru.springframework.spring5webapp.domain;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -15,7 +15,7 @@ public class Book {
     private String title;
     private String isbn;
 
-    @OneToOne
+    @ManyToOne
     private Publisher publisher;
 
     @ManyToMany
@@ -26,17 +26,17 @@ public class Book {
     public Book() {
     }
 
-    public Book(String title, String isbn, Publisher publisher) {
+    public Book(String title, String isbn) {
         this.title = title;
         this.isbn = isbn;
-        this.publisher = publisher;
     }
 
-    public Book(String title, String isbn, Publisher publisher, Set<Author> authors) {
-        this.title = title;
-        this.isbn = isbn;
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
         this.publisher = publisher;
-        this.authors = authors;
     }
 
     public Long getId() {
@@ -63,20 +63,22 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public Publisher getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(Publisher publisher) {
-        this.publisher = publisher;
-    }
-
     public Set<Author> getAuthors() {
         return authors;
     }
 
     public void setAuthors(Set<Author> authors) {
         this.authors = authors;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", authors=" + authors +
+                '}';
     }
 
     @Override
@@ -92,16 +94,5 @@ public class Book {
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", isbn='" + isbn + '\'' +
-                ", publisher='" + publisher + '\'' +
-                ", authors=" + authors +
-                '}';
     }
 }
